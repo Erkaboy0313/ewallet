@@ -39,10 +39,10 @@ class Report(models.Model):
         (BORROW,BORROW),
     ]
 
-    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    source = models.ForeignKey(Source,on_delete=models.CASCADE)
     type = models.CharField(max_length=30,choices=type_choice,null=True,blank=True)
     source_expence = models.CharField(choices=source_expence_choice,max_length=20,null=True,blank=True)
-    source = models.ForeignKey(Source,on_delete=models.CASCADE,null=True,blank=True)
     amount = models.BigIntegerField(default=0)
     fund_percent = models.IntegerField(default=0)
     fund = models.BigIntegerField(default=0)
