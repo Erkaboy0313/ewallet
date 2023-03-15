@@ -70,8 +70,9 @@ class FundViewset(viewsets.ModelViewSet):
     def list(self,request,*args,**kwargs):
         income_list = Report.filters.filter_this_month_fund(year = request.data.get('year',None),month=request.data.get('month',None))
         serizlizer = self.get_serializer(income_list, many = True)
-        data = serizlizer.data
-        data.append(Report.filters.tottal_fund())
+        data = {}
+        data['items'] = serizlizer.data
+        data['fund'] = Report.filters.tottal_fund()
         return Response(data,status=status.HTTP_200_OK)
 
 class YearlyViewSet(viewsets.ViewSet):
