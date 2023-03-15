@@ -41,11 +41,11 @@ class IncomeViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
     def list(self,request,*args,**kwargs):
-        income_list = Report.filters.filter_this_month_income(year = request.data.get('year',None),month=request.data.get('month',None))
+        income_list = Report.filters.filter_this_month_income(year = request.GET.get('year',None),month=request.GET.get('month',None))
         serizlizer = self.get_serializer(income_list,many = True)
         data = {}
         data['items'] = serizlizer.data
-        data['income'] = (Report.filters.tottal_month_report(year = request.data.get('year',None),month=request.data.get('month',None),income=Report.INCOME))
+        data['income'] = (Report.filters.tottal_month_report(year = request.GET.get('year',None),month=request.GET.get('month',None),income=Report.INCOME))
         return Response(data,status=status.HTTP_200_OK)
     
 class ExpenceViewset(viewsets.ModelViewSet):
