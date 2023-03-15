@@ -42,10 +42,14 @@ class ExpenceSerializer(serializers.ModelSerializer):
         return object
 
 class FundSerializer(serializers.ModelSerializer):
-    source = SourceSerializer(read_only = True)
     class Meta:
         model = Report
         exclude = ['user','type','source_expence','clean_amount','gift']
+    
+    def to_representation(self, instance):
+        object = super().to_representation(instance)
+        object['source'] = instance.source.name
+        return object
 
 class YearReport(serializers.Serializer):
     month = serializers.DateField()
