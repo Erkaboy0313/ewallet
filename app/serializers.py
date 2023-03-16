@@ -11,13 +11,13 @@ class UserSerializer(serializers.ModelSerializer):
 class SourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
-        fields = ['name','user']
+        exclude = ['type']
         extra_kwargs = {'user': {'write_only': True}}
 
 class ExpenseSourceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
-        fields = ['name','user']
+        exclude = ['type']
         extra_kwargs = {'user': {'write_only': True}}
     
     def create(self, validated_data):
