@@ -5,7 +5,17 @@ from django.contrib.auth.models import User
 
 
 class Source(models.Model):
+
+    INCOME = 'Income'
+    EXPENSE = 'Expense'
+
+    type_choice = [
+        (INCOME,INCOME),
+        (EXPENSE,EXPENSE)
+    ]
+
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
+    type = models.CharField(choices=type_choice,default=INCOME,max_length=20)
     name = models.CharField(max_length=100,null=True,blank=True)
     
     class Meta:
