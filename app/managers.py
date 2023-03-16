@@ -24,7 +24,7 @@ class ReportManager(models.Manager):
     def tottal_month_report(self,user,year = None,month = None,income = None,expence = None): 
         this_year,this_month = (year,month) if (year and month) else self.get_this_date()
         this_month_objects = self.get_queryset().filter(user = user,date__year = this_year, date__month = this_month)
-        expence_from_income = Coalesce(models.Sum("amount",filter=models.Q(type = "Expense", source_expence = "Soft_Amount")),0)
+        expence_from_income = this_month_objects.aggregate(expense = Coalesce(models.Sum("amount",filter=models.Q(type = "Expense", source_expence = "Soft_Amount")),0))
         if not (income or expence):
             income = this_month_objects.filter(type = "Income").aggregate(sum_income = Coalesce(models.Sum("amount"),0))
             expence = this_month_objects.filter(type = "Expense").aggregate(sum_expence = Coalesce(models.Sum("amount"),0))
@@ -35,9 +35,9 @@ class ReportManager(models.Manager):
         
         else:
             if income:
-                income = this_month_objects.filter(type = "Income").aggregate(sum_income = Coalesce(models.Sum("clean_amount"),0) - expence_from_income)
+                income = this_month_objects.filter(type = "Income").aggregate(sum_income = Coalesce(models.Sum("clean_amount"),0))
                 context = {
-                    "income":income.get("sum_income")  
+                    "income":income.get("sum_income") - expence_from_income.get('expense')  
                 }
             elif expence:
                 expence = this_month_objects.filter(type = expence).aggregate(sum_expence = Coalesce(models.Sum("amount"),0))
