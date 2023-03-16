@@ -24,7 +24,7 @@ class ReportManager(models.Manager):
     def tottal_month_report(self,user,year = None,month = None,income = None,expence = None): 
         this_year,this_month = (year,month) if (year and month) else self.get_this_date()
         this_month_objects = self.get_queryset().filter(user = user,date__year = this_year, date__month = this_month)
-        
+        expence_from_income = Coalesce(models.Sum("amount",filter=models.Q(type = "Expense", source_expence = "Soft_Amount")),0)
         if not (income or expence):
             income = this_month_objects.filter(type = "Income").aggregate(sum_income = Coalesce(models.Sum("amount"),0))
             expence = this_month_objects.filter(type = "Expense").aggregate(sum_expence = Coalesce(models.Sum("amount"),0))
@@ -35,7 +35,7 @@ class ReportManager(models.Manager):
         
         else:
             if income:
-                income = this_month_objects.filter(type = "Income").aggregate(sum_income = Coalesce(models.Sum("clean_amount"),0))
+                income = this_month_objects.filter(type = "Income").aggregate(sum_income = Coalesce(models.Sum("clean_amount"),0) - expence_from_income)
                 context = {
                     "income":income.get("sum_income")  
                 }
@@ -53,7 +53,7 @@ class ReportManager(models.Manager):
         return {"income":income.get("income"),"expence":expence.get("expence")}
     
     def tottal_loan(self,user):
-        tottal_loan = self.get_queryset().filter(user = user,source__name__icontains = "Qarz"
+        tottal_loan = self.get_queryset().filter(user = user,source__name__icontains = "Қарз"
                                                  ).aggregate(sum_loan = Coalesce(models.Sum("amount",filter=models.Q(type = "Income")),0
                                                                                  )-Coalesce(models.Sum("amount",filter=models.Q(type="Expense")),0))
         return tottal_loan
@@ -71,8 +71,8 @@ class ReportManager(models.Manager):
         soft_amount = models.Sum('clean_amount', filter=models.Q(type = "Income"))
         expence = models.Sum('amount', filter=models.Q(type = "Expense"))
         fund = models.Sum('fund' , filter=models.Q(type = "Income"))
-        loan = models.Sum('amount', filter=models.Q(type = "Income" , source__name__icontains = "Qarz"))
-        borrow = models.Sum('amount',filter=models.Q(type = "Expense" , source__name__icontains = "Qarz"))
+        loan = models.Sum('amount', filter=models.Q(type = "Income" , source__name__icontains = "Қарз"))
+        borrow = models.Sum('amount',filter=models.Q(type = "Expense" , source__name__icontains = "Қарз"))
         daycount = self.get_queryset().filter(user = user,date__year = int(year)
                                                 ).annotate(
                                                     month = TruncMonth('date',output_field=models.DateField())

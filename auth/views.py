@@ -13,8 +13,8 @@ class RegisterView(viewsets.ViewSet):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        Source.objects.create(user = user, name = 'Qarz')
-        Source.objects.create(user = user, name = 'Qarz', type = Source.EXPENSE)
+        Source.objects.create(user = user, name = 'Қарз')
+        Source.objects.create(user = user, name = 'Қарз', type = Source.EXPENSE)
         return Response({"message":"user created"})
 
 class LoginView(viewsets.ViewSet):
