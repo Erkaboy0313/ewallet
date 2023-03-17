@@ -9,5 +9,4 @@ class FormatMoneyMixin(object):
                 result.update({field_name:inst_rep[field_name]})
             else:
                 result.update({field_name:format_money(inst_rep[field_name])})
-        print(result)
         return result
