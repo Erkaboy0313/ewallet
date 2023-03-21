@@ -1,6 +1,6 @@
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 from . views import FundViewset,IncomeViewset,UserViewSet,ExpenceViewset,SourceViewSet,ExpenceSourceViewSet,HomePageViewSet,YearlyViewSet
-router = DefaultRouter()
+router = SimpleRouter()
 
 router.register(r'user',UserViewSet,basename='user')
 router.register(r'source',SourceViewSet,basename='source')

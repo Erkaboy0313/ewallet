@@ -4,6 +4,7 @@ from . serializers import IncomeSerializer,ExpenceSerializer,UserSerializer,Fund
 from . models import Report,User,Source
 from datetime import datetime
 from . utils import format_money
+from django.http import HttpResponse
 # Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -77,7 +78,6 @@ class ExpenceViewset(viewsets.ModelViewSet):
         data['expence'] = format_money(Report.filters.tottal_month_report(user = request.user,year = request.GET.get('year',None),month=request.GET.get('month',None),expence=Report.EXPENSE).get('expence'))
         return Response(data,status=status.HTTP_200_OK)
 
-
 class FundViewset(viewsets.ModelViewSet):
     queryset = []
     serializer_class = FundSerializer
@@ -102,3 +102,5 @@ class YearlyViewSet(viewsets.ViewSet):
         data['year'] = request.GET.get('year') if request.GET.get('year') else datetime.now().year
         return Response(data)
 
+def HomeView(request):
+    return HttpResponse('<h1 style="text-align:center; margin-top:100px">Hello Welcome to eWallet Project</h1>')

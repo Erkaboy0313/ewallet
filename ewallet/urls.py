@@ -20,12 +20,13 @@ from app.api import router
 from django.views.generic import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
+from app.views import HomeView
 
 urlpatterns = [
+    path('',HomeView,name='home'),
     path('admin/', admin.site.urls),
     path('auth/',include(auth_router.urls)),
     path('api/',include(router.urls)),
-    path('',RedirectView.as_view(url = 'api/')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
