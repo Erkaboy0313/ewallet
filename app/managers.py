@@ -78,7 +78,7 @@ class ReportManager(models.Manager):
                                                     month = TruncMonth('date',output_field=models.DateField())
                                                     ).values('month'
                                                             ).annotate(income=Coalesce(income,0)
-                                                                        ).annotate(soft_amount=Coalesce(soft_amount,0)
+                                                                        ).annotate(soft_amount=Coalesce(soft_amount,0) - Coalesce(expence,0)
                                                                                 ).annotate(expence = Coalesce(expence,0)
                                                                                             ).annotate(fund=Coalesce(fund,0)
                                                                                                         ).annotate(loan =Coalesce(loan,0)
