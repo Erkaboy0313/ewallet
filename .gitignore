@@ -126,4 +126,5 @@ dmypy.json
 .pyre/
 .idea/*
 
+db.sqlite3
 *.sqlite3/

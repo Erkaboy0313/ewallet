@@ -36,7 +36,7 @@ class IncomeSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         object = super().to_representation(instance)
-        object['source'] = instance.source.name
+        object['source'] = instance.source.name if instance.source else 'Null'
         object['amount'] = format_money(instance.amount)
         object['fund'] = format_money(instance.fund)
         object['clean_amount'] = format_money(instance.clean_amount)
@@ -54,7 +54,7 @@ class ExpenceSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         object = super().to_representation(instance)
-        object['source'] = instance.source.name
+        object['source'] = instance.source.name if instance.source else 'Null'
         object['amount'] = format_money(instance.amount)
         return object
 
@@ -65,7 +65,7 @@ class FundSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         object = super().to_representation(instance)
-        object['source'] = instance.source.name
+        object['source'] = instance.source.name if instance.source else 'Null'
         object['amount'] = format_money(instance.amount)
         object['fund'] = format_money(instance.fund)
         return object

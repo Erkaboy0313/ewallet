@@ -19,7 +19,6 @@ class ReportManager(models.Manager):
     def filter_this_month_fund(self,user,year = None,month = None):
         this_year,this_month = (year,month) if (year and month) else self.get_this_date()
         return self.get_queryset().filter(user = user,date__year = this_year,date__month = this_month,fund_percent__gt = 0)
-
     
     def tottal_month_report(self,user,year = None,month = None,income = None,expence = None): 
         this_year,this_month = (year,month) if (year and month) else self.get_this_date()

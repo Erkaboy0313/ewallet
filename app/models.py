@@ -51,7 +51,7 @@ class Report(models.Model):
     ]
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    source = models.ForeignKey(Source,on_delete=models.CASCADE)
+    source = models.ForeignKey(Source,on_delete=models.SET_NULL,null=True,blank=True)
     type = models.CharField(max_length=30,choices=type_choice,null=True,blank=True)
     source_expence = models.CharField(choices=source_expence_choice,max_length=20,null=True,blank=True)
     amount = models.BigIntegerField(default=0,null=True,blank=True)

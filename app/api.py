@@ -1,6 +1,11 @@
-from rest_framework.routers import SimpleRouter
+from rest_framework.routers import SimpleRouter,DefaultRouter
 from . views import FundViewset,IncomeViewset,UserViewSet,ExpenceViewset,SourceViewSet,ExpenceSourceViewSet,HomePageViewSet,YearlyViewSet
-router = SimpleRouter()
+from django.conf import settings
+
+if settings.DEBUG:
+    router = DefaultRouter()
+else:
+    router = SimpleRouter()
 
 router.register(r'user',UserViewSet,basename='user')
 router.register(r'source',SourceViewSet,basename='source')
