@@ -65,7 +65,7 @@ class Report(models.Model):
     filters = ReportManager()
     objects = models.Manager()
     class Meta:
-        ordering = ['-id']
+        ordering = ['-date']
 
     def fund_calculate(self):
         return self.amount * (100 / self.fund_percent)

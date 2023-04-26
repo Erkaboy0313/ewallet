@@ -5,7 +5,6 @@ from . models import Report,User,Source
 from datetime import datetime
 from . utils import format_money
 from django.http import HttpResponse
-# Create your views here.
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -15,10 +14,10 @@ class UserViewSet(viewsets.ModelViewSet):
 class SourceViewSet(viewsets.ModelViewSet):
     queryset = Source.objects.all()
     serializer_class = SourceSerializer
-    # permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def list(self, request, *args, **kwargs):
-        data = Source.objects.filter(type = Source.INCOME)
+        data = Source.objects.filter(type = Source.INCOME,user = request.user)
         serializer = self.get_serializer(data,many = True)
         return Response(serializer.data,status=status.HTTP_200_OK)
     
